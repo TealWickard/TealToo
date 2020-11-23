@@ -1,15 +1,16 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scan = new Scanner(new File("Test/data.txt"));
         ArrayList<Player> players = new ArrayList<>();
         ArrayList<String> currentPlayers = new ArrayList<>();
-        HashMap<String, Player> names = new HashMap<>();
+        TreeMap<String, Player> names = new TreeMap<>();
         while(scan.hasNextLine()){
             String curr = scan.nextLine();
             String[] argNames = curr.substring(3).split(",");
@@ -28,8 +29,12 @@ public class Test {
                     }
                 break;
                 case 'R':
-                    for(String name : argNames){
-                        currentPlayers.remove(name);
+                    if(argNames[0].equals("all")){
+                        currentPlayers = new ArrayList<String>();
+                    } else {
+                        for(String name : argNames){
+                            currentPlayers.remove(name);
+                        }
                     }
                 break;
                 case 'W':
@@ -51,28 +56,38 @@ public class Test {
                     impELO /= 2;
                     for(String name : currentPlayers){
                         if(argNames[0].equals(name) || argNames[1].equals(name)){
-                            double elo = names.get(name).getImpELO();
-                            double expectedValue = 1 / (1 + Math.pow(10, (crewELO - elo) / 400));
+                            double expectedValue = 1 / (1 + Math.pow(10, (crewELO - impELO) / 400));
                             if(curr.charAt(0) == 'W'){
-                                names.get(name).setImpELO(elo + 32 * (1 - expectedValue));
+                                names.get(name).setImpELO(names.get(name).getImpELO() + 32 * (1 - expectedValue));
                             } else {
-                                names.get(name).setImpELO(elo - 32 * (expectedValue));
+                                names.get(name).setImpELO(names.get(name).getImpELO() - 32 * (expectedValue));
                             }
                         } else {
-                            double elo = names.get(name).getCrewELO();
-                            double expectedValue = 1 / (1 + Math.pow(10, (impELO - elo) / 400));
-                            if(curr.charAt(0) == 'W'){
-                                names.get(name).setCrewELO(elo + 32 * (1 - expectedValue));
+                            double expectedValue = 1 / (1 + Math.pow(10, (impELO - crewELO) / 400));
+                            if(curr.charAt(0) == 'L'){
+                                names.get(name).setCrewELO(names.get(name).getCrewELO() + 32 * (1 - expectedValue));
                             } else {
-                                names.get(name).setCrewELO(elo - 32 * (expectedValue));
+                                names.get(name).setCrewELO(names.get(name).getCrewELO() - 32 * (expectedValue));
                             }
                         }
                     }
                 break;
             }
         }
+        ArrayList<Player> sorted = new ArrayList<>();
         for(String name : names.keySet()){
-            System.out.println(name + ": " + (names.get(name).getCrewELO() + names.get(name).getImpELO()) / 2);
+            sorted.add(names.get(name));
+        }
+        Collections.sort(sorted);
+        for(Player player : sorted){
+            int crewELO = (int)Math.round(player.getCrewELO());
+            int impELO = (int)Math.round(player.getImpELO());
+            int ELO = (crewELO + impELO) / 2;
+            String buffer = "";
+            for(int i = 0; i < 9 - player.getName().length(); i++){
+                buffer += " ";
+            }
+            System.out.printf("%s: %sELO: %d, crew: %d, imposter, %d\n", player.getName(), buffer, ELO, crewELO, impELO);
         }
     }
 }
