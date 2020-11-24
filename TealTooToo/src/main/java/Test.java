@@ -8,9 +8,9 @@ import java.util.TreeMap;
 public class Test {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scan = new Scanner(new File("Test/data.txt"));
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<AmongUsPlayer> players = new ArrayList<>();
         ArrayList<String> currentPlayers = new ArrayList<>();
-        TreeMap<String, Player> names = new TreeMap<>();
+        TreeMap<String, AmongUsPlayer> names = new TreeMap<>();
         while(scan.hasNextLine()){
             String curr = scan.nextLine();
             String[] argNames = curr.substring(3).split(",");
@@ -21,7 +21,7 @@ public class Test {
                 case 'A':
                     for(String name : argNames){
                         if(!names.containsKey(name)){
-                            Player newPlayer = new Player(name, 3);
+                            AmongUsPlayer newPlayer = new AmongUsPlayer(name, 3);
                             players.add(newPlayer);
                             names.put(name, newPlayer);
                         }
@@ -55,7 +55,7 @@ public class Test {
                     crewELO /= 8;
                     impELO /= 2;
                     for(String name : currentPlayers){
-                        Player current = names.get(name);
+                        AmongUsPlayer current = names.get(name);
                         if(argNames[0].equals(name) || argNames[1].equals(name)){
                             double expectedValue = 1 / (1 + Math.pow(10, (crewELO - impELO) / 400));
                             if(curr.charAt(0) == 'W'){
@@ -79,12 +79,12 @@ public class Test {
                 break;
             }
         }
-        ArrayList<Player> sorted = new ArrayList<>();
+        ArrayList<AmongUsPlayer> sorted = new ArrayList<>();
         for(String name : names.keySet()){
             sorted.add(names.get(name));
         }
         Collections.sort(sorted);
-        for(Player player : sorted){
+        for(AmongUsPlayer player : sorted){
             int crewELO = (int)Math.round(player.getCrewELO());
             int impELO = (int)Math.round(player.getImpELO());
             int ELO = (crewELO + impELO) / 2;

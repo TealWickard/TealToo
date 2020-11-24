@@ -1,4 +1,4 @@
-public class Player implements Comparable<Player>{
+public class AmongUsPlayer implements Comparable<AmongUsPlayer>{
     String name;
     double crewELO;
     double impELO;
@@ -7,7 +7,7 @@ public class Player implements Comparable<Player>{
     int crewLosses;
     int impLosses;
     int id;
-    public Player(String name, int id){
+    public AmongUsPlayer(String name, int id){
         this.name = name;
         this.crewELO = 800;
         this.impELO = 800;
@@ -65,7 +65,7 @@ public class Player implements Comparable<Player>{
     }
 
     @Override
-    public int compareTo(Player otherPlayer) {
+    public int compareTo(AmongUsPlayer otherPlayer) {
         if(otherPlayer.getCrewELO() + otherPlayer.getImpELO() == crewELO + impELO){
             return 0;
         }
