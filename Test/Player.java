@@ -9,7 +9,7 @@ public class Player implements Comparable<Player>{
     int id;
     public Player(String name, int id){
         this.name = name;
-        this.crewELO = 700;
+        this.crewELO = 800;
         this.impELO = 800;
         this.crewWins = 0;
         this.impWins = 0;
@@ -31,7 +31,38 @@ public class Player implements Comparable<Player>{
     public void setImpELO(double newELO){
         impELO = newELO;
     }
+    
+    public int getCrewWins() {
+        return this.crewWins;
+    }
 
+    public void addCrewWin() {
+        this.crewWins++;
+    }
+
+    public int getImpWins() {
+        return this.impWins;
+    }
+
+    public void addImpWin() {
+        this.impWins++;
+    }
+
+    public int getCrewLosses() {
+        return this.crewLosses;
+    }
+
+    public void addCrewLoss() {
+        this.crewLosses++;
+    }
+
+    public int getImpLosses() {
+        return this.impLosses;
+    }
+
+    public void addImpLoss() {
+        this.impLosses++;
+    }
 
     @Override
     public int compareTo(Player otherPlayer) {

@@ -55,19 +55,24 @@ public class Test {
                     crewELO /= 8;
                     impELO /= 2;
                     for(String name : currentPlayers){
+                        Player current = names.get(name);
                         if(argNames[0].equals(name) || argNames[1].equals(name)){
                             double expectedValue = 1 / (1 + Math.pow(10, (crewELO - impELO) / 400));
                             if(curr.charAt(0) == 'W'){
-                                names.get(name).setImpELO(names.get(name).getImpELO() + 32 * (1 - expectedValue));
+                                current.addImpWin();
+                                current.setImpELO(current.getImpELO() + 32 * (1 - expectedValue));
                             } else {
-                                names.get(name).setImpELO(names.get(name).getImpELO() - 32 * (expectedValue));
+                                current.addImpLoss();
+                                current.setImpELO(current.getImpELO() - 32 * (expectedValue));
                             }
                         } else {
                             double expectedValue = 1 / (1 + Math.pow(10, (impELO - crewELO) / 400));
                             if(curr.charAt(0) == 'L'){
-                                names.get(name).setCrewELO(names.get(name).getCrewELO() + 32 * (1 - expectedValue));
+                                current.addCrewWin();
+                                current.setCrewELO(current.getCrewELO() + 32 * (1 - expectedValue));
                             } else {
-                                names.get(name).setCrewELO(names.get(name).getCrewELO() - 32 * (expectedValue));
+                                current.addCrewLoss();
+                                current.setCrewELO(current.getCrewELO() - 32 * (expectedValue));
                             }
                         }
                     }
@@ -87,7 +92,7 @@ public class Test {
             for(int i = 0; i < 9 - player.getName().length(); i++){
                 buffer += " ";
             }
-            System.out.printf("%s: %sELO: %d, crew: %d, imposter, %d\n", player.getName(), buffer, ELO, crewELO, impELO);
+            System.out.printf("%s: %sELO: %d, crew: %d (%d-%d), imposter, %d (%d-%d)\n", player.getName(), buffer, ELO, crewELO, player.getCrewWins(), player.getCrewLosses(), impELO, player.getImpWins(), player.getImpLosses());
         }
     }
 }
