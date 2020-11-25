@@ -7,8 +7,7 @@ import java.io.IOException;
 
 public class Main extends ListenerAdapter {
     public static void main(String[] args) throws LoginException, IOException, ClassNotFoundException {
-        JDABuilder builder = new JDABuilder(AccountType.BOT);
-        builder.setToken(Constants.TOKEN);
+        JDABuilder builder = JDABuilder.createDefault(Constants.TOKEN);
         builder.addEventListeners(new Main(), new Dice(), new Misc(), new PuzzleHunt(), new Perversity());
         builder.build();
     }

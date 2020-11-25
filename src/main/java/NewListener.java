@@ -18,7 +18,6 @@ public class NewListener extends ListenerAdapter {
     }
 
     public void onMessageReceived(MessageReceivedEvent event){
-        System.out.println("received message: " + event.getMessage().getContentRaw());
         try {
             caseMessage = event.getMessage().getContentRaw();
         }catch(Exception e) {

@@ -7,6 +7,7 @@ public class AmongUsPlayer implements Comparable<AmongUsPlayer>{
     int crewLosses;
     int impLosses;
     int id;
+
     public AmongUsPlayer(String name, int id){
         this.name = name;
         this.crewELO = 800;
@@ -16,6 +17,7 @@ public class AmongUsPlayer implements Comparable<AmongUsPlayer>{
         this.crewLosses = 0;
         this.impLosses = 0;
     }
+
     public double getCrewELO(){
         return crewELO;
     }
